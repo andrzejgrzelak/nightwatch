@@ -4,6 +4,7 @@ ENV DISPLAY=:99 DEBIAN_FRONTEND=noninteractive
 #install application dependencies
 RUN DEBIAN_FRONTEND=noninteractive \
   set -ex \
+  && apt-get update -qqy \
   && apt-get -y install \
     xvfb \
     curl
@@ -15,7 +16,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     && apt-get update -qqy \
     && apt-get -y install ${CHROME_VERSION:-google-chrome-stable} \
     && rm /etc/apt/sources.list.d/google-chrome.list \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/ \
+    && rm -rf /var/lib/apt/lists/* /var/cache/apt/
 
 
 #install firefox
@@ -29,7 +30,7 @@ RUN apt-get update -qqy \
     && tar -C /opt -xjf /tmp/firefox.tar.bz2 \
     && rm /tmp/firefox.tar.bz2 \
     && mv /opt/firefox /opt/firefox-$FIREFOX_VERSION \
-    && ln -fs /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox \
+    && ln -fs /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox 
 
 
 #install nightwatch
